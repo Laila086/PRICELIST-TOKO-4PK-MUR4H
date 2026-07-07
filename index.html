@@ -993,8 +993,8 @@ const list = products
       if (p.variants && p.variants.length){
         priceHtml = `<ul class="variants">${p.variants.map((v, vi) => `
           <li>
-            <div class="variant-info"><span class="vlabel">${v.label}</span><span class="vprice">${formatRupiah(v.price)}</span></div>
-            <button class="add-btn add-btn-round" onclick="addToCart('${p.id}', ${vi})" aria-label="Tambah ${v.label}">+</button>
+            <div class="variant-info"><span class="vlabel">${highlight(v.label)}</span><span class="vprice">${formatRupiah(v.price)}</span></div>
+            <button class="add-btn add-btn-round" onclick="addToCart('${p.id}', ${vi})" aria-label="Tambah ${highlight(v.label)}">+</button>
           </li>`).join("")}</ul>`;
       } else {
         priceHtml = `
