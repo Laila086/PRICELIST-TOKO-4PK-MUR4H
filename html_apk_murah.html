@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Harga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#151312;
+    --paper:#FFFFFF;
+    --red:#D6291E;
+    --gray:#6E6660;
+    --line:#151312;
+    --line-soft:#D8D2C8;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family:'Plus Jakarta Sans', system-ui, sans-serif;
+    padding-bottom: 60px;
+  }
+
+  /* ---------------- HEADER ---------------- */
+  .header{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 44px 24px 18px;
+    display:flex;
+    align-items:flex-start;
+    gap: 22px;
+  }
+
+  .suit{
+    width: 34px;
+    height: 34px;
+    background: var(--red);
+    transform: rotate(45deg);
+    border-radius: 4px;
+    flex-shrink:0;
+    margin-top: 6px;
+  }
+
+  .header-text{ flex:1; }
+
+  .eyebrow{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 19px;
+    margin: 0 0 2px;
+  }
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight: 900;
+    font-size: clamp(34px, 7vw, 54px);
+    line-height: 0.98;
+    text-transform: uppercase;
+    margin: 6px 0 8px;
+    letter-spacing: -0.01em;
+    text-shadow:
+      2px 2px 0 rgba(21,19,18,0.12),
+      4px 4px 0 rgba(21,19,18,0.06);
+  }
+
+  h1 .accent{ color: var(--red); text-shadow: 2px 2px 0 rgba(214,41,30,0.18); }
+
+  .tagline{
+    font-family:'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--gray);
+    margin: 0;
+  }
+
+  /* ---------------- SEARCH + TABS ---------------- */
+  .controls{
+    max-width: 900px;
+    margin: 26px auto 0;
+    padding: 0 24px;
+    display:flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items:center;
+  }
+
+  .search-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    padding: 9px 16px;
+    flex: 1 1 220px;
+    min-width: 200px;
+  }
+
+  .search-box svg{ flex-shrink:0; opacity:0.7; }
+
+  .search-box input{
+    border:none;
+    outline:none;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    width:100%;
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .search-box input::placeholder{ color: #B3ACA3; }
+
+  .tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+
+  .tab{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 9px 15px;
+    border-radius: 999px;
+    border: 2px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+
+  .tab.active{ background: var(--ink); color:#fff; }
+  .tab:hover:not(.active){ background: #F3F0EA; }
+
+  .empty{
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 24px;
+    text-align:center;
+    color: var(--gray);
+    font-size: 14px;
+    display:none;
+  }
+
+  /* ---------------- MASONRY GRID ---------------- */
+  .grid{
+    max-width: 900px;
+    margin: 30px auto 0;
+    padding: 0 24px;
+    column-count: 3;
+    column-gap: 0;
+  }
+
+  @media (max-width: 720px){ .grid{ column-count: 2; } }
+  @media (max-width: 460px){ .grid{ column-count: 1; } }
+
+  .card{
+    break-inside: avoid;
+    border: 1.5px solid var(--line);
+    margin: -1px -1px 0 0;
+    padding: 22px 20px;
+    position: relative;
+    background: var(--paper);
+    overflow:hidden;
+  }
+
+  .cat{
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .name{
+    font-family:'Fraunces', serif;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.2;
+    margin: 0 0 6px;
+  }
+
+  .desc{
+    font-size: 12.5px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0 0 14px;
+  }
+
+  .variants{
+    list-style:none;
+    margin:0 0 4px;
+    padding:0;
+    font-size: 13.5px;
+  }
+
+  .variants li{
+    display:flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+    border-top: 1px dashed var(--line-soft);
+  }
+
+  .variants li:first-child{ border-top:none; }
+
+  .variants li span:first-child{ color: var(--gray); }
+  .variants li span:last-child{ font-weight: 700; white-space:nowrap; }
+
+  .single-price{
+    font-family:'Fraunces', serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--red);
+  }
+
+  .single-price small{
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--gray);
+    margin-left: 3px;
+  }
+
+  .badge{
+    display:inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #fff;
+    background: var(--red);
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-top: 10px;
+  }
+
+  .stamp{
+    position:absolute;
+    top: 38%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(-14deg);
+    border: 3px solid var(--red);
+    color: var(--red);
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 0.06em;
+    padding: 4px 14px;
+    border-radius: 8px;
+    opacity: 0.88;
+    pointer-events:none;
+    background: rgba(255,255,255,0.75);
+  }
+
+  .card.soldout .name,
+  .card.soldout .desc,
+  .card.soldout .variants,
+  .card.soldout .single-price{
+    opacity: 0.35;
+  }
+
+  /* ---------------- FOOTER ---------------- */
+  .footer{
+    max-width: 900px;
+    margin: 46px auto 0;
+    padding: 0 24px;
+  }
+
+  .footer-bar{
+    background: var(--ink);
+    color:#fff;
+    border-radius: 14px;
+    padding: 20px 24px;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-bar .label{
+    font-family:'Fraunces', serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .footer-bar .contact{
+    font-size: 13.5px;
+    color: #E9E4DB;
+    text-align:right;
+  }
+
+  .wa-buttons{
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .wa-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background: var(--red);
+    color:#fff;
+    text-decoration:none;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: opacity .15s ease;
+  }
+
+  .wa-btn:hover{ opacity: 0.85; }
+
+  .wa-btn svg{ flex-shrink:0; }
+
+  .footer-note{
+    text-align:center;
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="suit"></div>
+    <div class="header-text">
+      <p class="eyebrow">Yuk mampir dulu~</p>
+      <h1>Toko Digital<br><span class="accent">Capcipcup</span></h1>
+      <p class="tagline">Etalase kecil buat semua karya digitalku</p>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="search" type="text" placeholder="Cari produk...">
+    </div>
+    <nav class="tabs" id="tabs"></nav>
+  </div>
+
+  <p class="empty" id="empty">Produk yang kamu cari nggak ketemu. Coba kata kunci lain, ya.</p>
+
+  <main class="grid" id="grid"></main>
+
+  <div class="footer">
+    <div class="footer-bar">
+      <span class="label">Cara Order</span>
+      <div class="wa-buttons">
+        <a class="wa-btn" href="https://wa.me/6285640498826?text=Halo%20Laila%2C%20aku%20mau%20tanya%20produk%20di%20Toko%20Digital%20Capcipcup" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5.1-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.3c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C3.7 14.9 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.8-8.7s8.7 3.9 8.7 8.7-3.9 8.6-8.7 8.6z"/></svg>
+          Chat Laila
+        </a>
+        <a class="wa-btn" href="https://wa.me/6281036238625?text=Halo%20Anggun%2C%20aku%20mau%20tanya%20produk%20di%20Toko%20Digital%20Capcipcup" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.4-.8-.7-1.4-1.6-1.6-1.9-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.4-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.1 0 1.2.9 2.4 1 2.6.1.2 1.8 2.8 4.4 3.8.6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.1.2-1.2-.1-.2-.3-.2-.5-.3z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5.1-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.3c-1.6 0-3.2-.4-4.5-1.2l-.3-.2-3.3.9.9-3.2-.2-.3C3.7 14.9 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.8-8.7s8.7 3.9 8.7 8.7-3.9 8.6-8.7 8.6z"/></svg>
+          Chat Anggun
+        </a>
+      </div>
+    </div>
+    <p class="footer-note">Harga bisa berubah sewaktu-waktu tanpa pemberitahuan.</p>
+  </div>
+
+<script>
+  /* ======================================================
+     EDIT DI SINI: ganti isi array "products" sesuai daganganmu.
+     - category : nama kategori (otomatis jadi tab filter)
+     - name     : nama produk
+     - desc     : deskripsi singkat 1 baris
+     - variants : (opsional) array beberapa pilihan harga, contoh:
+                  variants: [ {label:"1 bulan", price:20000}, {label:"3 bulan", price:50000} ]
+     - price/unit : dipakai kalau produk cuma punya 1 harga (tanpa variants)
+                  price: 25000, unit: "/paket"
+     - badge    : (opsional) teks kecil, misal "Best Seller"
+     - soldOut  : (opsional) true kalau stok habis / sedang tutup order
+  ====================================================== */
+  const products = [
+    {
+      category: "Template Desain",
+      name: "Template Feed Instagram",
+      desc: "Canva, siap edit, 9 slide",
+      variants: [
+        { label: "1 set (9 slide)", price: 15000 },
+        { label: "3 set", price: 40000 }
+      ]
+    },
+    {
+      category: "Template Desain",
+      name: "Template CV / Resume",
+      desc: "Format ATS-friendly, editable",
+      price: 20000, unit: "/paket",
+      badge: "Favorit"
+    },
+    {
+      category: "Template Desain",
+      name: "Template Story Highlight",
+      desc: "20 ikon custom, tema warm",
+      price: 15000, unit: "/set"
+    },
+    {
+      category: "Jasa Custom",
+      name: "Desain Feed Instagram",
+      desc: "Custom sesuai brand kamu",
+      variants: [
+        { label: "1 desain", price: 35000 },
+        { label: "3 desain", price: 90000 }
+      ]
+    },
+    {
+      category: "Jasa Custom",
+      name: "Desain Poster / Flyer",
+      desc: "Revisi 2x, file siap cetak",
+      price: 40000, unit: "/desain",
+      soldOut: true
+    },
+    {
+      category: "Jasa Custom",
+      name: "Konsultasi Konten",
+      desc: "Bantu susun ide & caption",
+      price: 30000, unit: "/sesi"
+    },
+    {
+      category: "Konten Digital",
+      name: "E-book Quotes Healing",
+      desc: "50 halaman, PDF siap baca",
+      price: 18000, unit: "/pdf"
+    },
+    {
+      category: "Konten Digital",
+      name: "Bundle Wallpaper Estetik",
+      desc: "20 wallpaper HD, tema warm",
+      price: 12000, unit: "/paket"
+    }
+  ];
+
+  const grid = document.getElementById('grid');
+  const tabsEl = document.getElementById('tabs');
+  const searchEl = document.getElementById('search');
+  const emptyEl = document.getElementById('empty');
+  const categories = ["Semua", ...new Set(products.map(p => p.category))];
+  let activeCat = "Semua";
+  let query = "";
+
+  function formatRupiah(n){ return "Rp" + n.toLocaleString('id-ID'); }
+
+  function matches(p){
+    const catOk = activeCat === "Semua" || p.category === activeCat;
+    const q = query.trim().toLowerCase();
+    const searchOk = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+    return catOk && searchOk;
+  }
+
+  function render(){
+    const list = products.filter(matches);
+    grid.innerHTML = "";
+    emptyEl.style.display = list.length ? "none" : "block";
+
+    list.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'card' + (p.soldOut ? ' soldout' : '');
+
+      let priceHtml = "";
+      if (p.variants && p.variants.length){
+        priceHtml = `<ul class="variants">${p.variants.map(v => `<li><span>${v.label}</span><span>${formatRupiah(v.price)}</span></li>`).join("")}</ul>`;
+      } else {
+        priceHtml = `<div class="single-price">${formatRupiah(p.price)}<small>${p.unit || ""}</small></div>`;
+      }
+
+      card.innerHTML = `
+        <div class="cat">${p.category}</div>
+        <h3 class="name">${p.name}</h3>
+        <p class="desc">${p.desc}</p>
+        ${priceHtml}
+        ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
+        ${p.soldOut ? `<div class="stamp">SOLD OUT</div>` : ""}
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function renderTabs(){
+    tabsEl.innerHTML = "";
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'tab' + (cat === activeCat ? ' active' : '');
+      btn.textContent = cat;
+      btn.onclick = () => { activeCat = cat; renderTabs(); render(); };
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  searchEl.addEventListener('input', e => { query = e.target.value; render(); });
+
+  renderTabs();
+  render();
+</script>
+
+</body>
+</html>
