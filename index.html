@@ -1007,8 +1007,8 @@ const list = products
       card.innerHTML = `
         ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
         <div class="cat">${p.category}</div>
-        <h3 class="name">${p.name}</h3>
-        <p class="desc">${p.desc}</p>
+        <h3 class="name">${highlight(p.name)}</h3>
+       ${p.desc ? `<p class="desc">${highlight(p.desc)}</p>` : ""}
         ${priceHtml}
         ${p.soldOut ? `<div class="stamp">SOLD OUT</div>` : ""}
       `;
