@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Toko Digital Capcipcup</title>
+<title>TOKO MILIARDER MUDA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -559,8 +559,8 @@
     <div class="suit"></div>
     <div class="header-text">
       <p class="eyebrow">Yuk mampir dulu~</p>
-      <h1>Toko Digital<br><span class="accent">Capcipcup</span></h1>
-      <p class="tagline">Etalase kecil buat semua karya digitalku</p>
+      <h1>MILIARDER MUDA<br><span class="accent">MUDA</span></h1>
+      <p class="tagline">Saatnya Jajan APK PREM di MILIARDER UDA</p>
     </div>
   </header>
 
@@ -634,71 +634,227 @@
      - soldOut  : (opsional) true = produk nggak bisa dipesan, muncul cap SOLD OUT
      ===================================================================== */
   const products = [
-    {
-      id: "tpl-feed-ig",
-      category: "Template Desain",
-      name: "Template Feed Instagram",
-      desc: "Canva, siap edit, 9 slide",
-      variants: [
-        { label: "1 set (9 slide)", price: 15000 },
-        { label: "3 set", price: 40000 }
-      ]
-    },
-    {
-      id: "tpl-cv",
-      category: "Template Desain",
-      name: "Template CV / Resume",
-      desc: "Format ATS-friendly, editable",
-      price: 20000, unit: "/paket",
-      badge: "Favorit"
-    },
-    {
-      id: "tpl-highlight",
-      category: "Template Desain",
-      name: "Template Story Highlight",
-      desc: "20 ikon custom, tema warm",
-      price: 15000, unit: "/set"
-    },
-    {
-      id: "jasa-feed",
-      category: "Jasa Custom",
-      name: "Desain Feed Instagram",
-      desc: "Custom sesuai brand kamu",
-      variants: [
-        { label: "1 desain", price: 35000 },
-        { label: "3 desain", price: 90000 }
-      ]
-    },
-    {
-      id: "jasa-poster",
-      category: "Jasa Custom",
-      name: "Desain Poster / Flyer",
-      desc: "Revisi 2x, file siap cetak",
-      price: 40000, unit: "/desain",
-      soldOut: true
-    },
-    {
-      id: "jasa-konsultasi",
-      category: "Jasa Custom",
-      name: "Konsultasi Konten",
-      desc: "Bantu susun ide & caption",
-      price: 30000, unit: "/sesi"
-    },
-    {
-      id: "ebook-healing",
-      category: "Konten Digital",
-      name: "E-book Quotes Healing",
-      desc: "50 halaman, PDF siap baca",
-      price: 18000, unit: "/pdf"
-    },
-    {
-      id: "wallpaper-bundle",
-      category: "Konten Digital",
-      name: "Bundle Wallpaper Estetik",
-      desc: "20 wallpaper HD, tema warm",
-      price: 12000, unit: "/paket"
-    }
-  ];
+  // Spotify
+  {
+    id: "spotify-indplan",
+    category: "Spotify",
+    name: "Spotify Indplan",
+    desc: "Akun Sharing",
+    variants: [
+      { label: "1 Bulan", price: 7000 },
+      { label: "2 Bulan", price: 20500 }
+    ],
+    soldOut: true
+  },
+  {
+    id: "spotify-famplan",
+    category: "Spotify",
+    name: "Spotify Famplan",
+    desc: "Akun Seller",
+    variants: [
+      { label: "1 Bulan", price: 21000 },
+      { label: "2 Bulan (Garansi)", price: 30500 }
+    ]
+  },
+  {
+    id: "spotify-famplan-buyer",
+    category: "Spotify",
+    name: "Spotify Famplan",
+    desc: "Akun Buyer",
+    variants: [
+      { label: "1 Bulan", price: 23500 },
+      { label: "2 Bulan", price: 35500 }
+    ]
+  },
+
+  // WeTV
+  {
+    id: "wetv",
+    category: "Streaming",
+    name: "WeTV Premium",
+    variants: [
+      { label: "1 Bulan (6 User)", price: 6000 },
+      { label: "1 Bulan (3 User)", price: 14000 },
+      { label: "1 Bulan Private", price: 32000 },
+      { label: "1 Tahun", price: 25000 }
+    ]
+  },
+
+  // VIU
+  {
+    id: "viu-private",
+    category: "Streaming",
+    name: "VIU Premium Private",
+    variants: [
+      { label: "1 Tahun", price: 4500 }
+    ]
+  },
+  {
+    id: "viu-sharing",
+    category: "Streaming",
+    name: "VIU Premium",
+    variants: [
+      { label: "1 Bulan", price: 2500 },
+      { label: "2 Bulan", price: 3000 },
+      { label: "3 Bulan", price: 3500 },
+      { label: "6 Bulan", price: 4000 }
+    ]
+  },
+  {
+    id: "viu-plus",
+    category: "Streaming",
+    name: "VIU Premium+",
+    price: 10000,
+    unit: "/bulan"
+  },
+
+  // Canva
+  {
+    id: "canva",
+    category: "Produktivitas",
+    name: "Canva Pro",
+    price: 3000,
+    unit: "/bulan"
+  },
+
+  // CapCut
+  {
+    id: "capcut",
+    category: "Editing",
+    name: "CapCut Pro",
+    variants: [
+      { label: "Private 7 Hari", price: 4000 }
+    ]
+  },
+
+  // Gemini
+  {
+    id: "gemini",
+    category: "AI",
+    name: "Gemini Advanced",
+    variants: [
+      { label: "Private Email Buyer", price: 15000 },
+      { label: "Private Email Seller", price: 18000 }
+    ]
+  },
+
+  // Zoom
+  {
+    id: "zoom",
+    category: "Meeting",
+    name: "Zoom Pro",
+    variants: [
+      { label: "Invite 100P 7 Hari", price: 14000 },
+      { label: "Invite 100P 14 Hari", price: 17000 },
+      { label: "Invite 100P 1 Bulan", price: 23000 }
+    ]
+  },
+
+  // YouTube
+  {
+    id: "youtube",
+    category: "Streaming",
+    name: "YouTube Premium Famplan",
+    price: 4000,
+    unit: "/bulan"
+  },
+
+  // Turnitin
+  {
+    id: "turnitin",
+    category: "Jasa",
+    name: "Turnitin",
+    desc: "Cek Similarity",
+    price: 6000,
+    unit: "/file"
+  },
+
+  // GPTZero
+  {
+    id: "gptzero",
+    category: "Jasa",
+    name: "Cek AI (GPTZero)",
+    variants: [
+      { label: "< 50K Kata", price: 5000 },
+      { label: "> 50K Kata", price: 6000 },
+      { label: "> 100K Kata", price: 7000 }
+    ]
+  },
+
+  // Disney+
+  {
+    id: "disney",
+    category: "Streaming",
+    name: "Disney+ Hotstar Sharing",
+    variants: [
+      { label: "1 Hari", price: 8000 },
+      { label: "3 Hari", price: 12000 },
+      { label: "7 Hari", price: 20000 },
+      { label: "1 Bulan", price: 30000 }
+    ]
+  },
+
+  // Netflix
+  {
+    id: "netflix-1p",
+    category: "Streaming",
+    name: "Netflix 1P",
+    variants: [
+      { label: "1 Minggu", price: 17000 },
+      { label: "1 Bulan", price: 30000 }
+    ]
+  },
+  {
+    id: "netflix-2p",
+    category: "Streaming",
+    name: "Netflix 2P",
+    variants: [
+      { label: "1 Minggu", price: 15000 },
+      { label: "1 Bulan", price: 23000 }
+    ]
+  },
+
+  // Scribd
+  {
+    id: "scribd",
+    category: "Ebook",
+    name: "Scribd Premium",
+    price: 15000,
+    unit: "/bulan"
+  },
+
+  // IQIYI
+  {
+    id: "iqiyi-premium",
+    category: "Streaming",
+    name: "IQIYI Premium",
+    variants: [
+      { label: "Share 1 Bulan", price: 6000 },
+      { label: "Antilimit 1 Bulan", price: 16000 }
+    ]
+  },
+  {
+    id: "iqiyi-standard",
+    category: "Streaming",
+    name: "IQIYI Standard",
+    variants: [
+      { label: "Share 1 Bulan", price: 5500 },
+      { label: "Share 3 Bulan", price: 9500 },
+      { label: "Share 12 Bulan", price: 12000 },
+      { label: "Private", price: 20000 }
+    ]
+  },
+
+  // HBO
+  {
+    id: "hbo",
+    category: "Streaming",
+    name: "HBO",
+    variants: [
+      { label: "1 Bulan (8 User)", price: 15000 }
+    ]
+  }
+];
 
   /* =====================================================================
      GANTI DI SINI 2: NOMOR WHATSAPP
