@@ -886,15 +886,102 @@
   function formatRupiah(n){ return "Rp" + n.toLocaleString('id-ID'); }
 
   // ---------- FILTER + RENDER GRID PRODUK ----------
-  function matchesFilter(p){
-    const catOk = activeCat === "Semua" || p.category === activeCat;
-    const q = query.trim().toLowerCase();
-    const searchOk = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
-    return catOk && searchOk;
+  function normalize(text){
+  return (text || "")
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g," ")
+    .trim();
+}
+
+function priceKeywords(price){
+  if(!price) return "";
+
+  const ribu = Math.round(price/1000);
+
+  return [
+    price,
+    ribu+"k",
+    ribu+"rb",
+    "rp"+price,
+    "rp "+price,
+    "rp"+ribu+"k",
+    "rp "+ribu+"k"
+  ].join(" ");
+}
+
+function productText(product){
+
+  let txt = [
+    product.name,
+    product.desc,
+    product.category
+  ].join(" ");
+
+  if(product.variants){
+
+    product.variants.forEach(v=>{
+      txt += " " + v.label;
+      txt += " " + priceKeywords(v.price);
+    });
+
+  }else{
+
+    txt += " " + priceKeywords(product.price);
+
   }
 
+  return normalize(txt);
+}
+  function matchesFilter(product){
+
+  const keyword = normalize(query);
+
+  const categoryOK =
+    activeCat==="Semua" ||
+    product.category===activeCat;
+
+  if(!categoryOK) return false;
+
+  if(keyword==="") return true;
+
+  return productText(product).includes(keyword);
+
+}
+
   function renderGrid(){
-    const list = products.filter(matchesFilter);
+   const keyword = normalize(query);
+
+const list = products
+.filter(matchesFilter)
+.sort((a,b)=>{
+
+    if(keyword==="") return 0;
+
+    const aName = normalize(a.name);
+    const bName = normalize(b.name);
+
+    if(aName.startsWith(keyword) && !bName.startsWith(keyword))
+        return -1;
+
+    if(!aName.startsWith(keyword) && bName.startsWith(keyword))
+        return 1;
+
+    return aName.localeCompare(bName);
+
+});
+    function highlight(text){
+
+    if(!query) return text || "";
+
+    const q = query.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+
+    return (text || "").replace(
+        new RegExp("("+q+")","ig"),
+        "<mark>$1</mark>"
+    );
+
+}
     grid.innerHTML = "";
     emptyEl.style.display = list.length ? "none" : "block";
 
